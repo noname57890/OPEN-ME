@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💌 Open Me When</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Caveat:wght@400;500;600;700&family=Patrick+Hand&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Landing Envelope -->
+        <div id="landing-envelope" class="landing-envelope">
+            <div class="envelope">
+                <div class="envelope-flap"></div>
+                <div class="envelope-body"></div>
+                <div class="heart">💝</div>
+            </div>
+            <p class="click-hint">Click To Open 💌</p>
+        </div>
+
+        <!-- Main Content (hidden initially) -->
+        <div id="main-content" class="main-content hidden">
+            <h1 class="title">💌 Open Me When</h1>
+
+            <!-- Rules Card -->
+            <div class="rules-card">
+                <h2>Rules</h2>
+                <ol>
+                    <li>Absolutely NO Peeking</li>
+                    <li>Open The Letters Whenever The Topics Apply To You</li>
+                    <li>Once Again NO Peeking</li>
+                    <li>Make sure to tell me every time you open a card so I can update it with a new message for you 💕</li>
+                </ol>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="cards-grid">
+                <div class="card card-1" data-card="0">
+                    <div class="card-envelope">
+                        <div class="card-icon">🎁</div>
+                        <span class="card-title">You First Receive It</span>
+                    </div>
+                </div>
+
+                <div class="card card-2" data-card="1">
+                    <div class="card-envelope">
+                        <div class="card-icon">💪</div>
+                        <span class="card-title">You Want A Pep Talk</span>
+                    </div>
+                </div>
+
+                <div class="card card-3" data-card="2">
+                    <div class="card-envelope">
+                        <div class="card-icon">📚</div>
+                        <span class="card-title">One Day Before The CAT Exam</span>
+                    </div>
+                </div>
+
+                <div class="card card-4" data-card="3">
+                    <div class="card-envelope">
+                        <div class="card-icon">🤒</div>
+                        <span class="card-title">You're Feeling Sick</span>
+                    </div>
+                </div>
+
+                <div class="card card-5" data-card="4">
+                    <div class="card-envelope">
+                        <div class="card-icon">🎉</div>
+                        <span class="card-title">You Got A High CAT Mock Score</span>
+                    </div>
+                </div>
+
+                <div class="card card-6" data-card="5">
+                    <div class="card-envelope">
+                        <div class="card-icon">💕</div>
+                        <span class="card-title">You Miss Me</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Letter Content -->
+    <div id="letter-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Confetti Container -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("CrAfvcI0J9PhnhXJn");
+        })();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,641 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Patrick Hand', cursive;
+    background: linear-gradient(135deg, #fff0f6 0%, #ffe5f1 25%, #ffd4e8 50%, #ffe8f5 75%, #fff0fa 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #4a3a4e;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Confetti Canvas */
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+}
+
+/* Landing Envelope Animation */
+.landing-envelope {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    animation: fadeIn 1s ease-in;
+}
+
+.envelope {
+    position: relative;
+    width: 320px;
+    height: 220px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 15px 35px rgba(255, 85, 150, 0.3));
+}
+
+.envelope:hover {
+    transform: scale(1.03) rotate(-1deg);
+}
+
+.envelope-body {
+    position: absolute;
+    bottom: 0;
+    width: 320px;
+    height: 200px;
+    background: linear-gradient(135deg, #fff 0%, #fffafc 100%);
+    border-radius: 0 0 18px 18px;
+    border: 3px dashed #ff85a8;
+    box-shadow:
+        inset 0 -20px 30px rgba(255, 182, 193, 0.05),
+        0 15px 35px rgba(255, 85, 150, 0.25);
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-top: 120px solid #ff9dc2;
+    border-bottom: 60px solid transparent;
+    z-index: 2;
+    transform-origin: top;
+    transition: transform 0.6s ease;
+    filter: drop-shadow(0 3px 10px rgba(255, 70, 140, 0.5));
+}
+
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+}
+
+.heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 70px;
+    animation: heartbeat 1.5s ease-in-out infinite;
+    z-index: 3;
+    filter: drop-shadow(0 4px 10px rgba(255, 70, 140, 0.5));
+}
+
+.click-hint {
+    margin-top: 50px;
+    font-size: 26px;
+    color: #ff5c8d;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Main Content */
+.main-content {
+    animation: fadeIn 1s ease-in;
+}
+
+.main-content.hidden {
+    display: none;
+}
+
+.title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 58px;
+    font-weight: 700;
+    color: #ff5c8d;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(255, 70, 140, 0.25);
+    letter-spacing: 1px;
+}
+
+/* Rules Card */
+.rules-card {
+    background: linear-gradient(135deg, #fff 0%, #fffafc 100%);
+    border: 3px dashed #ff85a8;
+    border-radius: 25px;
+    padding: 35px;
+    margin: 0 auto 50px;
+    max-width: 500px;
+    box-shadow:
+        0 10px 30px rgba(255, 85, 150, 0.2),
+        0 2px 8px rgba(255, 70, 140, 0.15);
+    position: relative;
+}
+
+.rules-card::before {
+    content: '✉️';
+    position: absolute;
+    top: -25px;
+    right: 20px;
+    font-size: 40px;
+    transform: rotate(15deg);
+}
+
+.rules-card h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 42px;
+    font-weight: 700;
+    color: #ff5c8d;
+    margin-bottom: 25px;
+}
+
+.rules-card ol {
+    text-align: left;
+    margin-left: 40px;
+    font-size: 19px;
+    line-height: 2;
+    color: #4a3a4e;
+}
+
+.rules-card ol li {
+    margin-bottom: 12px;
+}
+
+.caption {
+    margin-top: 25px;
+    font-size: 18px;
+    color: #ff5c8d;
+    font-family: 'Dancing Script', cursive;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+/* Cards Grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 35px;
+    margin-top: 50px;
+}
+
+.card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px) rotate(-1deg);
+}
+
+.card-envelope {
+    position: relative;
+    background: linear-gradient(135deg, #fff 0%, #fffafd 100%);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow:
+        0 10px 25px rgba(255, 85, 150, 0.2),
+        0 2px 8px rgba(255, 70, 140, 0.15);
+    border: 2px dashed #ff99b8;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Different pastel colors for each card */
+.card-1 .card-envelope {
+    background: linear-gradient(135deg, #fff 0%, #fff5f8 100%);
+    border-color: #ffb3d9;
+}
+
+.card-2 .card-envelope {
+    background: linear-gradient(135deg, #fff 0%, #f8f5ff 100%);
+    border-color: #d4b3ff;
+}
+
+.card-3 .card-envelope {
+    background: linear-gradient(135deg, #fff 0%, #fff8f5 100%);
+    border-color: #ffd4b3;
+}
+
+.card-4 .card-envelope {
+    background: linear-gradient(135deg, #fff 0%, #f5fff8 100%);
+    border-color: #b3ffd4;
+}
+
+.card-5 .card-envelope {
+    background: linear-gradient(135deg, #fff 0%, #fffef5 100%);
+    border-color: #ffe8b3;
+}
+
+.card-flap {
+    display: none;
+}
+
+.card-icon {
+    font-size: 48px;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 2px 5px rgba(255, 85, 150, 0.3));
+}
+
+.card-title {
+    font-size: 20px;
+    color: #4a3a4e;
+    text-align: center;
+    display: block;
+    line-height: 1.6;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(90, 74, 94, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(255, 127, 163, 0.3);
+    border: 3px solid #ffcce0;
+    animation: slideUp 0.4s ease;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 32px;
+    color: #ff7fa3;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+
+.close-btn:hover {
+    transform: scale(1.2);
+}
+
+.modal-body {
+    font-size: 19px;
+    line-height: 1.9;
+    color: #5a4a5e;
+}
+
+.modal-body h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 44px;
+    font-weight: 700;
+    color: #ff5c8d;
+    margin-bottom: 25px;
+}
+
+.modal-body p {
+    margin-bottom: 20px;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.modal-body img {
+    max-width: 100%;
+    background: white;
+    padding: 15px;
+    padding-bottom: 50px;
+    border-radius: 5px;
+    margin: 20px auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: rotate(-2deg);
+    display: block;
+    position: relative;
+}
+
+.modal-body img:nth-child(even) {
+    transform: rotate(2deg);
+}
+
+.modal-body img:hover {
+    transform: rotate(0deg) scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.modal-body audio,
+.modal-body video {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+.modal-body a {
+    color: #ff7fa3;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Prompt Styles */
+.prompt-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.prompt-content p {
+    font-size: 24px;
+    color: #5a4a5e;
+    margin-bottom: 30px;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.prompt-btn {
+    padding: 15px 35px;
+    font-size: 20px;
+    font-family: 'Patrick Hand', cursive;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 85, 150, 0.2);
+    font-weight: 600;
+}
+
+.yes-btn {
+    background: linear-gradient(135deg, #b3ffd4 0%, #a3f5c5 100%);
+    color: #2d5a3d;
+}
+
+.yes-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(179, 255, 212, 0.4);
+}
+
+.no-btn {
+    background: linear-gradient(135deg, #ffb3d9 0%, #ffa3cc 100%);
+    color: #5a2d45;
+}
+
+.no-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 179, 217, 0.4);
+}
+
+.continue-btn {
+    background: linear-gradient(135deg, #ffd4b3 0%, #ffc4a3 100%);
+    color: #5a3d2d;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.continue-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 212, 179, 0.4);
+}
+
+/* Error Card */
+.error-card {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.error-card h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 48px;
+    color: #ff5c8d;
+    margin-bottom: 20px;
+}
+
+.error-card p {
+    font-size: 22px;
+    color: #5a4a5e;
+    font-family: 'Patrick Hand', cursive;
+}
+
+/* Pep Talk Response */
+.pep-talk-response {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.pep-talk-response p {
+    font-size: 22px;
+    color: #5a4a5e;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Fun Fact Card */
+.fun-fact-card {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.fun-fact-card h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 44px;
+    color: #ff5c8d;
+    margin-bottom: 25px;
+}
+
+.fun-fact-card p {
+    font-size: 20px;
+    color: #5a4a5e;
+    margin-bottom: 15px;
+    line-height: 1.8;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.fun-fact-card p strong {
+    color: #ff5c8d;
+    font-size: 22px;
+}
+
+.cute-gif {
+    display: block;
+    margin: 20px auto;
+    width: 220px;
+    border-radius: 10px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Checklist Styles */
+.checklist-container {
+    background: linear-gradient(135deg, #fff5f8 0%, #ffe8f5 100%);
+    border: 2px dashed #ffb3d9;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 25px 0;
+}
+
+.checklist-container h3 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 28px;
+    color: #ff5c8d;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cute-checkbox {
+    display: block;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 18px;
+    color: #5a4a5e;
+    cursor: pointer;
+    padding: 10px 0;
+    transition: all 0.3s ease;
+}
+
+.cute-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #ff85b3;
+}
+
+.cute-checkbox:hover {
+    color: #ff5c8d;
+    transform: translateX(5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .title {
+        font-size: 36px;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .envelope {
+        width: 260px;
+        height: 180px;
+    }
+
+    .envelope-body {
+        width: 260px;
+        height: 160px;
+    }
+
+    .envelope-flap {
+        border-left: 130px solid transparent;
+        border-right: 130px solid transparent;
+        border-top: 100px solid #ff9dc2;
+    }
+
+    .heart {
+        font-size: 50px;
+    }
+
+    .modal-content {
+        padding: 30px 20px;
+    }
+
+    .prompt-content p {
+        font-size: 20px;
+    }
+
+    .prompt-btn {
+        padding: 12px 25px;
+        font-size: 18px;
+    }
+
+    .fun-fact-card h2 {
+        font-size: 36px;
+    }
+
+    .fun-fact-card p {
+        font-size: 18px;
+    }
+}
